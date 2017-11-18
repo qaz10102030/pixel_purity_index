@@ -16,3 +16,13 @@ C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\pixel_purity_index\pixel
 C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.Form1.resources
 C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.Properties.Resources.resources
 C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.csproj.GenerateResource.Cache
+C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\bin\Debug\pixel_purity_index.exe.config
+C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.exe
+C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.pdb
+C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\bin\Debug\pixel_purity_index.exe
+C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\bin\Debug\pixel_purity_index.pdb
+C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.csprojResolveAssemblyReference.cache
+C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.Form1.resources
+C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.Properties.Resources.resources
+C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.csproj.GenerateResource.Cache
+C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.Form2.resources

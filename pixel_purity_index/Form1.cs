@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace pixel_purity_index
@@ -36,6 +36,7 @@ namespace pixel_purity_index
         public Form1()
         {
             InitializeComponent();
+            Form.CheckForIllegalCrossThreadCalls = false;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -67,45 +68,102 @@ namespace pixel_purity_index
         {
             if (textBox1.Text != "" && IsNumeric(textBox1.Text))
             {
+                pictureBox2.BackgroundImage = null; 
+                listBox1.Items.Clear();
                 button2.Enabled = false;
                 int K = int.Parse(textBox1.Text);
-                List<rndCluster> rndColor = new List<rndCluster>();
-                for (int i = 0; i < K; i++)
-                {
-                    Vector temp = new Vector();
-                    temp.v1 = rnd.Next(0, 255);
-                    temp.v2 = rnd.Next(0, 255);
-                    temp.v3 = rnd.Next(0, 255);
-                    double length = Math.Sqrt(Math.Pow(temp.v1, 2) + Math.Pow(temp.v2, 2) + Math.Pow(temp.v3, 2));
-                    temp.v1 /= length;
-                    temp.v2 /= length;
-                    temp.v3 /= length;
-                    rndColor.Add(new rndCluster { rndColor = temp, minColor = Color.White, maxColor = Color.Black });
-                }
+                ThreadStart starter = () => Work(originColor, K);
+                Thread doWork = new Thread(starter);
+                doWork.Start();
+            }
+        }
 
-                for (int i = 0; i < K; i++)
-                {
-                    double[] dis = new double[originColor.Count];
-                    for (int j = 0; j < originColor.Count; j++)
-                    {
-                        dis[j] = calcLength(originColor[j].pixel, rndColor[i].rndColor);
-                    }
-                    int minIndex = Array.IndexOf(dis, dis.Min());
-                    int maxIndex = Array.IndexOf(dis, dis.Max());
-                    rndCluster temp = rndColor[i];
-                    temp.minColor = originColor[minIndex].pixel;
-                    temp.maxColor = originColor[maxIndex].pixel;
-                    rndColor[i] = temp;
-                }
+        private void Work(List<External> originColor, int K)
+        {
+            listBox1.Items.Add("第一");
+            listBox1.TopIndex = listBox1.Items.Count - 1;
+            for (int i = 0; i < originColor.Count; i++)
+            {
+                External temp = originColor[i];
+                temp.NPPI = 0;
+                originColor[i] = temp;
+            }
+            List<rndCluster> rndColor = new List<rndCluster>();
+            for (int i = 0; i < K; i++)
+            {
+                Vector temp = new Vector();
+                temp.v1 = rnd.Next(0, 255);
+                temp.v2 = rnd.Next(0, 255);
+                temp.v3 = rnd.Next(0, 255);
+                double length = Math.Sqrt(Math.Pow(temp.v1, 2) + Math.Pow(temp.v2, 2) + Math.Pow(temp.v3, 2));
+                temp.v1 /= length;
+                temp.v2 /= length;
+                temp.v3 /= length;
+                rndColor.Add(new rndCluster { rndColor = temp, minColor = Color.White, maxColor = Color.Black });
+            }
 
-                for (int i = 0; i < originColor.Count; i++)
+            listBox1.Items.Add("第二");
+            listBox1.TopIndex = listBox1.Items.Count - 1;
+            for (int i = 0; i < K; i++)
+            {
+                double[] dis = new double[originColor.Count];
+                for (int j = 0; j < originColor.Count; j++)
                 {
-                    for (int j = 0; j < K; j++)
+                    dis[j] = calcLength(originColor[j].pixel, rndColor[i].rndColor);
+                }
+                int minIndex = Array.IndexOf(dis, dis.Min());
+                int maxIndex = Array.IndexOf(dis, dis.Max());
+                rndCluster temp = rndColor[i];
+                temp.minColor = originColor[minIndex].pixel;
+                temp.maxColor = originColor[maxIndex].pixel;
+                rndColor[i] = temp;
+            }
+
+            listBox1.Items.Add("第三");
+            listBox1.TopIndex = listBox1.Items.Count - 1;
+            for (int i = 0; i < originColor.Count; i++)
+            {
+                for (int j = 0; j < K; j++)
+                {
+                    if(compareEqu(originColor[i].pixel,rndColor[j].maxColor) ||
+                        compareEqu(originColor[i].pixel,rndColor[j].maxColor))
                     {
-                        if()
+                        External temp = originColor[i];
+                        temp.NPPI++;
+                        originColor[i] = temp;
                     }
                 }
             }
+
+            listBox1.Items.Add("畫圖");
+            listBox1.TopIndex = listBox1.Items.Count - 1;
+            int width = myPic.Width;
+            int height = myPic.Height;
+            Bitmap tempBitmap = new Bitmap(width, height);
+            int count = 0;
+            for (int i = 1; i < width; i++)
+            {
+                for (int j = 1; j < height; j++)
+                {
+                    if (originColor[count].NPPI > 0)
+                    {
+                        tempBitmap.SetPixel(i, j, Color.Black);
+                    }
+                    else {
+                        tempBitmap.SetPixel(i, j, Color.White);
+                    }
+                    count++;
+                }
+            }
+            pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox2.BackgroundImage = tempBitmap;
+            listBox1.Items.Add("完成");
+            listBox1.TopIndex = listBox1.Items.Count - 1;
+            button2.Enabled = true;
+            Form2 lForm = new Form2();
+            lForm.histData = originColor;  
+            lForm.SetDiagram();
+            lForm.ShowDialog();
         }
 
         public double calcLength(Color A, Vector B)
@@ -115,7 +173,10 @@ namespace pixel_purity_index
 
         public bool compareEqu(Color c1,Color c2)
         {
-
+            if (c1.R == c2.R && c1.G == c2.G && c1.B == c2.B)
+                return true;
+            else
+                return false;
         }
 
         private static bool IsNumeric(string TextBoxValue)
