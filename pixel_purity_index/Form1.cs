@@ -68,8 +68,9 @@ namespace pixel_purity_index
         {
             if (textBox1.Text != "" && IsNumeric(textBox1.Text))
             {
-                pictureBox2.BackgroundImage = null; 
-                listBox1.Items.Clear();
+                progressBar1.Value = 0;
+                pictureBox2.BackgroundImage = null;
+                //listBox1.Items.Clear();
                 button2.Enabled = false;
                 int K = int.Parse(textBox1.Text);
                 ThreadStart starter = () => Work(originColor, K);
@@ -80,14 +81,15 @@ namespace pixel_purity_index
 
         private void Work(List<External> originColor, int K)
         {
-            listBox1.Items.Add("第一");
-            listBox1.TopIndex = listBox1.Items.Count - 1;
+            //listBox1.Items.Add("第一");
+            //listBox1.TopIndex = //listBox1.Items.Count - 1;
             for (int i = 0; i < originColor.Count; i++)
             {
                 External temp = originColor[i];
                 temp.NPPI = 0;
                 originColor[i] = temp;
             }
+            progressBar1.Value = 10;
             List<rndCluster> rndColor = new List<rndCluster>();
             for (int i = 0; i < K; i++)
             {
@@ -101,9 +103,9 @@ namespace pixel_purity_index
                 temp.v3 /= length;
                 rndColor.Add(new rndCluster { rndColor = temp, minColor = Color.White, maxColor = Color.Black });
             }
-
-            listBox1.Items.Add("第二");
-            listBox1.TopIndex = listBox1.Items.Count - 1;
+            progressBar1.Value = 20;
+            //listBox1.Items.Add("第二");
+            //listBox1.TopIndex = //listBox1.Items.Count - 1;
             for (int i = 0; i < K; i++)
             {
                 double[] dis = new double[originColor.Count];
@@ -118,9 +120,9 @@ namespace pixel_purity_index
                 temp.maxColor = originColor[maxIndex].pixel;
                 rndColor[i] = temp;
             }
-
-            listBox1.Items.Add("第三");
-            listBox1.TopIndex = listBox1.Items.Count - 1;
+            progressBar1.Value = 50;
+            //listBox1.Items.Add("第三");
+            //listBox1.TopIndex = //listBox1.Items.Count - 1;
             for (int i = 0; i < originColor.Count; i++)
             {
                 for (int j = 0; j < K; j++)
@@ -134,9 +136,10 @@ namespace pixel_purity_index
                     }
                 }
             }
+            progressBar1.Value = 75;
+            //listBox1.Items.Add("畫圖");
+            //listBox1.TopIndex = //listBox1.Items.Count - 1;
 
-            listBox1.Items.Add("畫圖");
-            listBox1.TopIndex = listBox1.Items.Count - 1;
             int width = myPic.Width;
             int height = myPic.Height;
             Bitmap tempBitmap = new Bitmap(width, height);
@@ -147,23 +150,31 @@ namespace pixel_purity_index
                 {
                     if (originColor[count].NPPI > 0)
                     {
-                        tempBitmap.SetPixel(i, j, originColor[count].pixel);
+                        //tempBitmap.SetPixel(i, j, originColor[count].pixel);
+                        Color temp = originColor[count].pixel;
+                        Color contrasting = Color.FromArgb((int)(0.2126 * temp.R), (int)(0.7152 * temp.G), (int)(0.0722 * temp.B));
+                        tempBitmap.SetPixel(i, j, Color.Black);
                     }
                     else {
-                        tempBitmap.SetPixel(i, j, SystemColors.Control);
+                        //tempBitmap.SetPixel(i, j, SystemColors.Control);
+                        Color temp = Color.FromArgb(50,originColor[count].pixel);
+                        tempBitmap.SetPixel(i, j, temp);
                     }
                     count++;
                 }
             }
+            progressBar1.Value = 80;
             pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
             pictureBox2.BackgroundImage = tempBitmap;
-            listBox1.Items.Add("完成");
-            listBox1.TopIndex = listBox1.Items.Count - 1;
+
+            //listBox1.Items.Add("完成");
+            //listBox1.TopIndex = //listBox1.Items.Count - 1;
             button2.Enabled = true;
             Form2 lForm = new Form2();
             lForm.histData = originColor;
             lForm.setK = K;
             lForm.SetDiagram();
+            progressBar1.Value = 100;
             lForm.ShowDialog();
         }
 

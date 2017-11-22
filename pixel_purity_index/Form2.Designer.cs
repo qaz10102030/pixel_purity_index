@@ -37,6 +37,7 @@
             // 
             // chart1
             // 
+            chartArea1.AxisX.Interval = 1D;
             chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
             chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
             chartArea1.Name = "ChartArea1";
