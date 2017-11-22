@@ -92,9 +92,9 @@ namespace pixel_purity_index
             for (int i = 0; i < K; i++)
             {
                 Vector temp = new Vector();
-                temp.v1 = rnd.Next(0, 255);
-                temp.v2 = rnd.Next(0, 255);
-                temp.v3 = rnd.Next(0, 255);
+                temp.v1 = rnd.Next(-100, 100);
+                temp.v2 = rnd.Next(-100, 100);
+                temp.v3 = rnd.Next(-100, 100);
                 double length = Math.Sqrt(Math.Pow(temp.v1, 2) + Math.Pow(temp.v2, 2) + Math.Pow(temp.v3, 2));
                 temp.v1 /= length;
                 temp.v2 /= length;
@@ -147,10 +147,10 @@ namespace pixel_purity_index
                 {
                     if (originColor[count].NPPI > 0)
                     {
-                        tempBitmap.SetPixel(i, j, Color.Black);
+                        tempBitmap.SetPixel(i, j, originColor[count].pixel);
                     }
                     else {
-                        tempBitmap.SetPixel(i, j, Color.White);
+                        tempBitmap.SetPixel(i, j, SystemColors.Control);
                     }
                     count++;
                 }
@@ -161,14 +161,15 @@ namespace pixel_purity_index
             listBox1.TopIndex = listBox1.Items.Count - 1;
             button2.Enabled = true;
             Form2 lForm = new Form2();
-            lForm.histData = originColor;  
+            lForm.histData = originColor;
+            lForm.setK = K;
             lForm.SetDiagram();
             lForm.ShowDialog();
         }
 
         public double calcLength(Color A, Vector B)
         {
-            return ((A.R * B.v1) + (A.G * B.v2) + (A.B * B.v3)) / Math.Sqrt(Math.Pow(A.R, 2) + Math.Pow(A.G, 2) + Math.Pow(A.B, 2));
+            return (((A.R - 127.5) * B.v1) + ((A.G - 127.5) * B.v2) + ((A.B - 127.5) * B.v3)) / Math.Sqrt(Math.Pow(A.R, 2) + Math.Pow(A.G, 2) + Math.Pow(A.B, 2));
         }
 
         public bool compareEqu(Color c1,Color c2)

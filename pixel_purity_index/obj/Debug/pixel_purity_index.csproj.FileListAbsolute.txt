@@ -26,3 +26,4 @@ C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\obj\Debug
 C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.Properties.Resources.resources
 C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.csproj.GenerateResource.Cache
 C:\Users\User\Desktop\Coding\git\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.Form2.resources
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\pixel_purity_index\pixel_purity_index\obj\Debug\pixel_purity_index.Form2.resources
